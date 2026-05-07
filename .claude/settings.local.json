@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/Users/rossh/Documents/Code Projects/Workout_Tracker/**)",
+      "Bash(\"/mnt/c/Users/rossh/Documents/Code Projects/Workout_Tracker/backend/.venv/Scripts/uvicorn.exe\" main:app --port 8000)",
+      "PowerShell(Start-Process -FilePath $uvicorn -ArgumentList \"main:app\", \"--port\", \"8000\" -WorkingDirectory $wd -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow)",
+      "PowerShell($uvicorn = \"C:\\\\Users\\\\rossh\\\\Documents\\\\Code Projects\\\\Workout_Tracker\\\\backend\\\\.venv\\\\Scripts\\\\uvicorn.exe\")",
+      "PowerShell($wd = \"C:\\\\Users\\\\rossh\\\\Documents\\\\Code Projects\\\\Workout_Tracker\\\\backend\")",
+      "PowerShell($log = \"C:\\\\Users\\\\rossh\\\\AppData\\\\Local\\\\Temp\\\\backend.log\")",
+      "PowerShell($err = \"C:\\\\Users\\\\rossh\\\\AppData\\\\Local\\\\Temp\\\\backend.err\")",
+      "PowerShell(Get-Command *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\rossh\\\\Documents\\\\Code Projects\\\\Workout_Tracker\\\\frontend\\\\workout-tracker\\\\src\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object FullName)",
+      "PowerShell(cmd /c \"dir /b /s \"\"C:\\\\Users\\\\rossh\\\\Documents\\\\Code Projects\\\\Workout_Tracker\\\\frontend\\\\workout-tracker\\\\src\"\" 2>&1\")",
+      "PowerShell(Get-Process *)",
+      "PowerShell(netstat *)",
+      "PowerShell(cmd /c \"tasklist /FI \"\"PID eq 11992\"\" 2>&1\")",
+      "Bash(curl -s \"http://localhost:8000/api/sessions/1\")",
+      "Bash(curl -s \"http://localhost:8000/openapi.json\")",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(p\\) for p in data['paths'].keys\\(\\)]\")"
+    ]
+  }
+}

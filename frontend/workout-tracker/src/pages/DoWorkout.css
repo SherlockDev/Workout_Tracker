@@ -1,0 +1,219 @@
+/* Sticky page header */
+.dw-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #f1f5f9;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 0 0 24px;
+  margin-bottom: 4px;
+}
+
+.dw-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.dw-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+}
+
+.dw-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Timer block */
+.dw-timer-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.dw-timer {
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #10b981;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.dw-timer.paused {
+  color: #94a3b8;
+}
+
+.btn-pause {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 6px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  color: #64748b;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.btn-pause:hover {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.btn-pause.resumed {
+  border-color: #10b981;
+  background: #f0fdf9;
+  color: #059669;
+}
+
+/* Exercise cards */
+.dw-exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.dw-ex-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dw-ex-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dw-ex-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  flex: 1;
+}
+
+.dw-ex-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+  background: #f8fafc;
+  border-left: 3px solid #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  margin: 0;
+}
+
+/* Sets table */
+.dw-sets-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dw-sets-head {
+  display: grid;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.dw-sets-head span {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dw-set-row {
+  display: grid;
+  gap: 8px;
+  align-items: center;
+}
+
+.set-num {
+  width: 28px;
+  height: 28px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.set-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+  background: #fff;
+}
+
+.set-input:focus {
+  border-color: #10b981;
+}
+
+.btn-rm-set {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-rm-set:hover:not(:disabled) {
+  color: #ef4444;
+}
+.btn-rm-set:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-add-set {
+  align-self: flex-start;
+  background: none;
+  border: 1.5px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.btn-add-set:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: #f0fdf9;
+}
+
+/* Notes */
+.dw-notes-card {
+  margin-top: 4px;
+}

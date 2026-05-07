@@ -1,0 +1,131 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.sessions-card {
+  grid-column: 1 / -1;
+}
+
+/* Calendar nav */
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.cal-nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.cal-nav-btn {
+  background: none;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cal-nav-btn:hover:not(:disabled) {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.cal-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Session list */
+.session-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 16px;
+}
+
+.session-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.session-item.clickable {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 13px 8px;
+  margin: 0 -8px;
+  transition: background 0.15s;
+}
+
+.session-item.clickable:hover {
+  background: #f8fafc;
+}
+
+.session-item.clickable:last-child {
+  border-bottom: none;
+}
+
+.session-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.session-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.session-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.session-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.session-date {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.session-duration {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.session-arrow {
+  font-size: 16px;
+  color: #cbd5e1;
+  margin-top: 2px;
+}

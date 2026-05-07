@@ -1,0 +1,154 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Profile summary card */
+.profile-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-details h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.profile-stats strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Weight card */
+.weight-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.weight-card-top h2 {
+  margin-bottom: 2px;
+}
+
+.log-weight-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.weight-input {
+  flex: 1;
+  max-width: 200px;
+  padding: 8px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #fff;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.weight-input:focus {
+  border-color: #10b981;
+}
+
+/* Body measurements */
+.latest-measurements {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.latest-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.measure-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.measure-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.measure-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.measure-label {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.measure-notes {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.measure-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.measure-form .form-group {
+  margin-bottom: 12px;
+}
+
+.measure-form .form-group:last-of-type {
+  margin-bottom: 16px;
+}

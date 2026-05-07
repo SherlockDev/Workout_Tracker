@@ -1,0 +1,130 @@
+.ex-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ex-search {
+  width: 100%;
+  max-width: 320px;
+  padding: 9px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.ex-search:focus {
+  border-color: #10b981;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip:hover:not(.active) {
+  background: #f1f5f9;
+}
+.chip.active {
+  background: #10b981;
+  border-color: #10b981;
+  color: #fff;
+}
+
+/* Table */
+.ex-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ex-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 12px 10px;
+  border-bottom: 1.5px solid #f1f5f9;
+}
+
+.ex-table th:first-child,
+.ex-table td:first-child {
+  padding-left: 0;
+}
+
+.ex-table th:last-child,
+.ex-table td:last-child {
+  padding-right: 0;
+  text-align: right;
+}
+
+.ex-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f8fafc;
+  vertical-align: middle;
+}
+
+.ex-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ex-table tr:hover td {
+  background: #fafafa;
+}
+
+.ex-type-cell {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.ex-name-cell {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.ex-desc-cell {
+  max-width: 380px;
+}
+
+.ex-desc-preview {
+  font-size: 13px;
+  color: #64748b;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.ex-no-desc {
+  font-size: 13px;
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+.ex-empty-row {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+  padding: 32px 0 !important;
+}
