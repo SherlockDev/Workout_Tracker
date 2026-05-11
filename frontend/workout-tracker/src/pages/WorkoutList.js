@@ -10,6 +10,7 @@ export default function WorkoutList() {
   const [newName, setNewName] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null); // workout to delete
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +43,13 @@ export default function WorkoutList() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleDelete = async () => {
+    if (!confirmDelete) return;
+    await api.del(`/api/workouts/${confirmDelete.id}`);
+    setWorkouts((prev) => prev.filter((w) => w.id !== confirmDelete.id));
+    setConfirmDelete(null);
   };
 
   if (loading) return <div className="page-loading">Loading…</div>;
@@ -117,6 +125,13 @@ export default function WorkoutList() {
                 </span>
                 <div className="wl-actions">
                   <button
+                    className="btn-delete btn-sm"
+                    onClick={() => setConfirmDelete(w)}
+                    title="Delete workout"
+                  >
+                    Delete
+                  </button>
+                  <button
                     className="btn-secondary btn-sm"
                     onClick={() => navigate(`/builder/${w.id}`)}
                   >
@@ -132,6 +147,25 @@ export default function WorkoutList() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {confirmDelete && (
+        <div className="modal-overlay" onClick={() => setConfirmDelete(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Delete Workout</h2>
+            <p style={{ marginBottom: 20, color: "#475569", fontSize: 14 }}>
+              Delete <strong>{confirmDelete.name}</strong>? This cannot be undone.
+            </p>
+            <div className="modal-actions">
+              <button className="btn-secondary" onClick={() => setConfirmDelete(null)}>
+                Cancel
+              </button>
+              <button className="btn-delete" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

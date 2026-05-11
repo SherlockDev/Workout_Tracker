@@ -112,6 +112,7 @@ def complete_workout(
             sets=len(ex_data.sets),
             reps=ex_data.sets[0].reps if ex_data.sets else None,
             weight=ex_data.sets[0].weight if ex_data.sets else None,
+            label=ex_data.label,
         )
         db.add(se)
         db.flush()
@@ -151,6 +152,7 @@ def get_session(session_id: int, db: Session = Depends(get_db)):
             sorted_sets = sorted(se.completed_sets, key=lambda cs: cs.set_number)
             exercises_detail.append(schemas.SessionExerciseDetailOut(
                 exercise=se.exercise,
+                label=se.label,
                 sets=sorted_sets,
             ))
     return schemas.SessionDetailOut(

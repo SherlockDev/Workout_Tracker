@@ -51,6 +51,11 @@ def create_workout(
                 reps=ex.reps,
                 weight=ex.weight,
                 order=ex.order if ex.order else i,
+                label=ex.label,
+                target_distance_km=ex.target_distance_km,
+                target_duration_secs=ex.target_duration_secs,
+                target_calories=ex.target_calories,
+                target_custom=ex.target_custom,
             )
         )
 
@@ -75,3 +80,17 @@ def get_workout(workout_id: int, db: Session = Depends(get_db)):
     if not workout:
         raise HTTPException(status_code=404, detail="Workout not found")
     return workout
+
+
+@router.delete("/{workout_id}")
+def delete_workout(workout_id: int, db: Session = Depends(get_db)):
+    workout = (
+        db.query(models.WorkoutTemplate)
+        .filter(models.WorkoutTemplate.id == workout_id)
+        .first()
+    )
+    if not workout:
+        raise HTTPException(status_code=404, detail="Workout not found")
+    db.delete(workout)
+    db.commit()
+    return {"ok": True}

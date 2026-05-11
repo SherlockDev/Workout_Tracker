@@ -40,6 +40,11 @@ class WorkoutTemplateExerciseOut(BaseModel):
     reps: int
     weight: Optional[float] = None
     order: int
+    label: Optional[str] = None
+    target_distance_km: Optional[float] = None
+    target_duration_secs: Optional[int] = None
+    target_calories: Optional[int] = None
+    target_custom: Optional[float] = None
     model_config = {"from_attributes": True}
 
 
@@ -49,6 +54,11 @@ class WorkoutTemplateExerciseCreate(BaseModel):
     reps: int = 10
     weight: Optional[float] = None
     order: int = 0
+    label: Optional[str] = None
+    target_distance_km: Optional[float] = None
+    target_duration_secs: Optional[int] = None
+    target_calories: Optional[int] = None
+    target_custom: Optional[float] = None
 
 
 class WorkoutTemplateCreate(BaseModel):
@@ -91,6 +101,7 @@ class CompletedSetCreate(BaseModel):
 
 class CompletedSessionExerciseCreate(BaseModel):
     exercise_id: int
+    label: Optional[str] = None
     sets: List[CompletedSetCreate]
 
 
@@ -127,6 +138,7 @@ class CompletedSetOut(BaseModel):
 
 class SessionExerciseDetailOut(BaseModel):
     exercise: ExerciseOut
+    label: Optional[str] = None
     sets: List[CompletedSetOut] = []
     model_config = {"from_attributes": True}
 
@@ -199,3 +211,33 @@ class BodyMeasurementOut(BaseModel):
     thighs_cm: Optional[float] = None
     notes: Optional[str] = None
     model_config = {"from_attributes": True}
+
+
+class PersonalBestCreate(BaseModel):
+    exercise_id: int
+
+
+class PersonalBestUpdate(BaseModel):
+    manual_weight: Optional[float] = None
+    manual_pace_secs_per_km: Optional[float] = None
+    manual_distance_km: Optional[float] = None
+    manual_duration_secs: Optional[int] = None
+    manual_custom: Optional[float] = None
+
+
+class PersonalBestOut(BaseModel):
+    exercise_id: int
+    exercise_name: str
+    muscle_group: str
+    tracking_type: str
+    custom_metric_label: Optional[str] = None
+    auto_weight: Optional[float] = None
+    auto_pace_secs_per_km: Optional[float] = None
+    auto_distance_km: Optional[float] = None
+    auto_duration_secs: Optional[int] = None
+    auto_custom: Optional[float] = None
+    manual_weight: Optional[float] = None
+    manual_pace_secs_per_km: Optional[float] = None
+    manual_distance_km: Optional[float] = None
+    manual_duration_secs: Optional[int] = None
+    manual_custom: Optional[float] = None

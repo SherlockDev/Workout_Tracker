@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProfileProvider, useProfile } from "./context/ProfileContext";
 import Sidebar from "./components/Sidebar";
@@ -12,9 +13,23 @@ import "./App.css";
 
 function AppLayout() {
   const { activeProfile } = useProfile();
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth > 768);
+
   return (
     <div className="app-layout">
-      <Sidebar />
+      {sidebarOpen && (
+        <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
+      )}
+      {!sidebarOpen && (
+        <button
+          className="hamburger"
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open menu"
+        >
+          <span /><span /><span />
+        </button>
+      )}
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="main-content" key={activeProfile?.id}>
         {activeProfile && (
           <Routes>

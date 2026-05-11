@@ -95,11 +95,25 @@
   gap: 10px;
 }
 
+.dw-ex-name-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .dw-ex-name {
   font-size: 16px;
   font-weight: 700;
   color: #0f172a;
-  flex: 1;
+}
+
+.dw-ex-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .dw-ex-desc {

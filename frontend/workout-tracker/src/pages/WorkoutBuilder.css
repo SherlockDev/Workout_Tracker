@@ -70,6 +70,28 @@
   color: #ef4444;
 }
 
+.sel-label-row {
+  margin-bottom: 8px;
+}
+
+.sel-label-input {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #475569;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+.sel-label-input:focus {
+  border-color: #10b981;
+}
+.sel-label-input::placeholder {
+  color: #cbd5e1;
+}
+
 .sel-inputs {
   display: flex;
   gap: 10px;
@@ -99,6 +121,66 @@
 }
 .sel-inputs input:focus {
   border-color: #10b981;
+}
+
+.sel-weight-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.sel-weight-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.sel-wtab {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+.sel-wtab.active {
+  background: #10b981;
+  border-color: #10b981;
+  color: #fff;
+}
+
+.sel-pct-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sel-pct-input {
+  width: 60px !important;
+  padding: 6px 6px !important;
+  text-align: center;
+}
+
+.sel-pct-result {
+  font-size: 11px;
+  color: #475569;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.sel-no-pb {
+  font-size: 10px;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 6px 0;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 /* Exercise panel (right) */

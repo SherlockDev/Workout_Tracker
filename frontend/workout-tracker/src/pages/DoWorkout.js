@@ -15,11 +15,13 @@ const COL_CONFIG = {
 };
 
 const makeSet = (ex, we) => {
+  const durMins = we.target_duration_secs != null ? Math.floor(we.target_duration_secs / 60) : "";
+  const durSecs = we.target_duration_secs != null ? we.target_duration_secs % 60 : "";
   switch (ex.tracking_type) {
-    case "distance_pace":     return { distance_km: "", dur_mins: "", dur_secs: "" };
-    case "distance_calories": return { distance_km: "", calories: "" };
-    case "duration":          return { dur_mins: "", dur_secs: "" };
-    case "custom":            return { custom_value: "" };
+    case "distance_pace":     return { distance_km: we.target_distance_km ?? "", dur_mins: durMins, dur_secs: durSecs };
+    case "distance_calories": return { distance_km: we.target_distance_km ?? "", calories: we.target_calories ?? "" };
+    case "duration":          return { dur_mins: durMins, dur_secs: durSecs };
+    case "custom":            return { custom_value: we.target_custom ?? "" };
     default:                  return { reps: we.reps ?? "", weight: we.weight ?? "" };
   }
 };
@@ -133,6 +135,7 @@ export default function DoWorkout() {
         setRows(
           sorted.map((we) => ({
             exercise: we.exercise,
+            label: we.label ?? null,
             sets: Array.from({ length: we.sets }, () => makeSet(we.exercise, we)),
           }))
         );
@@ -184,6 +187,7 @@ export default function DoWorkout() {
         notes: notes.trim() || null,
         exercises: rows.map((row) => ({
           exercise_id: row.exercise.id,
+          label: row.label || null,
           sets: row.sets.map((s, si) =>
             buildSetPayload(s, row.exercise.tracking_type, si)
           ),
@@ -225,7 +229,10 @@ export default function DoWorkout() {
           return (
             <div key={ri} className="card dw-ex-card">
               <div className="dw-ex-top">
-                <span className="dw-ex-name">{row.exercise.name}</span>
+                <div className="dw-ex-name-group">
+                  <span className="dw-ex-name">{row.exercise.name}</span>
+                  {row.label && <span className="dw-ex-label">{row.label}</span>}
+                </div>
                 <span className={`tag tag-${row.exercise.muscle_group.toLowerCase()}`}>
                   {row.exercise.muscle_group}
                 </span>

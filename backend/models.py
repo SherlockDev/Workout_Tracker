@@ -41,6 +41,11 @@ class WorkoutTemplateExercise(Base):
     reps = Column(Integer, default=10)
     weight = Column(Float, nullable=True)
     order = Column(Integer, default=0)
+    label = Column(String, nullable=True)
+    target_distance_km = Column(Float, nullable=True)
+    target_duration_secs = Column(Integer, nullable=True)
+    target_calories = Column(Integer, nullable=True)
+    target_custom = Column(Float, nullable=True)
 
     workout_template = relationship("WorkoutTemplate", back_populates="exercises")
     exercise = relationship("Exercise")
@@ -72,6 +77,7 @@ class SessionExercise(Base):
     sets = Column(Integer)
     reps = Column(Integer, nullable=True)
     weight = Column(Float, nullable=True)
+    label = Column(String, nullable=True)
 
     session = relationship("WorkoutSession", back_populates="exercises")
     exercise = relationship("Exercise")
@@ -137,3 +143,16 @@ class BodyMeasurement(Base):
     notes = Column(Text, nullable=True)
 
     profile = relationship("UserProfile", back_populates="measurements")
+
+
+class PersonalBest(Base):
+    __tablename__ = "personal_bests"
+
+    id = Column(Integer, primary_key=True)
+    profile_id = Column(Integer, ForeignKey("user_profiles.id"))
+    exercise_id = Column(Integer, ForeignKey("exercises.id"))
+    manual_weight = Column(Float, nullable=True)
+    manual_pace_secs_per_km = Column(Float, nullable=True)
+    manual_distance_km = Column(Float, nullable=True)
+    manual_duration_secs = Column(Integer, nullable=True)
+    manual_custom = Column(Float, nullable=True)

@@ -130,12 +130,15 @@ export default function SessionDetail() {
 
       <div className="sd-exercises">
         {session.exercises.map((exDetail, i) => {
-          const { exercise, sets } = exDetail;
+          const { exercise, label, sets } = exDetail;
           const headers = HEADERS[exercise.tracking_type] || HEADERS.strength;
           return (
             <div key={i} className="card sd-ex-card">
               <div className="sd-ex-header">
-                <span className="sd-ex-name">{exercise.name}</span>
+                <div className="sd-ex-name-group">
+                  <span className="sd-ex-name">{exercise.name}</span>
+                  {label && <span className="sd-ex-label">{label}</span>}
+                </div>
                 <span className={`tag tag-${exercise.muscle_group.toLowerCase()}`}>
                   {exercise.muscle_group}
                 </span>

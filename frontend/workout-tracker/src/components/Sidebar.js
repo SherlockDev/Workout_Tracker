@@ -62,11 +62,15 @@ function initials(name) {
   return name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 }
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const { profiles, activeProfile, switchProfile, createProfile } = useProfile();
   const [open, setOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState("");
+
+  const handleNavClick = () => {
+    if (window.innerWidth <= 768) onClose();
+  };
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -79,10 +83,11 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${isOpen ? " open" : ""}`}>
       <div className="sidebar-brand">
         <span className="brand-icon">💪</span>
         <span className="brand-name">WorkoutTracker</span>
+        <button className="sidebar-close" onClick={onClose} aria-label="Close menu">✕</button>
       </div>
 
       <nav className="sidebar-nav">
@@ -92,6 +97,7 @@ export default function Sidebar() {
             to={to}
             end={end}
             className={({ isActive }) => `nav-item${isActive ? " active" : ""}`}
+            onClick={handleNavClick}
           >
             <span className="nav-icon">{icon}</span>
             <span>{label}</span>
@@ -147,6 +153,7 @@ export default function Sidebar() {
         <NavLink
           to="/profile"
           className={({ isActive }) => `nav-item${isActive ? " active" : ""}`}
+          onClick={handleNavClick}
         >
           <span className="nav-icon"><IconProfile /></span>
           <span>Profile</span>

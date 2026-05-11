@@ -27,6 +27,14 @@ def run_migrations():
         "ALTER TABLE workout_sessions ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
         "ALTER TABLE weight_logs ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
         "ALTER TABLE body_measurements ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
+        # Exercise slot labels
+        "ALTER TABLE workout_template_exercises ADD COLUMN label TEXT",
+        "ALTER TABLE session_exercises ADD COLUMN label TEXT",
+        # Cardio targets on template exercises
+        "ALTER TABLE workout_template_exercises ADD COLUMN target_distance_km REAL",
+        "ALTER TABLE workout_template_exercises ADD COLUMN target_duration_secs INTEGER",
+        "ALTER TABLE workout_template_exercises ADD COLUMN target_calories INTEGER",
+        "ALTER TABLE workout_template_exercises ADD COLUMN target_custom REAL",
     ]
     update_stmts = [
         "UPDATE exercises SET tracking_type='distance_pace'    WHERE name IN ('Running','Cycling') AND (tracking_type IS NULL OR tracking_type='strength')",
@@ -37,6 +45,7 @@ def run_migrations():
         "CREATE TABLE IF NOT EXISTS user_profiles (id INTEGER PRIMARY KEY, name TEXT, age INTEGER, height_cm REAL)",
         "CREATE TABLE IF NOT EXISTS weight_logs (id INTEGER PRIMARY KEY, date DATETIME, weight_kg REAL NOT NULL)",
         "CREATE TABLE IF NOT EXISTS body_measurements (id INTEGER PRIMARY KEY, date DATETIME, arms_cm REAL, chest_cm REAL, waist_cm REAL, hips_cm REAL, thighs_cm REAL, notes TEXT)",
+        "CREATE TABLE IF NOT EXISTS personal_bests (id INTEGER PRIMARY KEY, profile_id INTEGER REFERENCES user_profiles(id), exercise_id INTEGER REFERENCES exercises(id), manual_weight REAL, manual_pace_secs_per_km REAL, manual_distance_km REAL, manual_duration_secs INTEGER, manual_custom REAL)",
     ]
     with engine.connect() as conn:
         for stmt in alter_stmts:
