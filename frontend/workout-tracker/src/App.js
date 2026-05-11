@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ProfileProvider, useProfile } from "./context/ProfileContext";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import WorkoutList from "./pages/WorkoutList";
@@ -9,12 +10,13 @@ import SessionDetail from "./pages/SessionDetail";
 import Profile from "./pages/Profile";
 import "./App.css";
 
-export default function App() {
+function AppLayout() {
+  const { activeProfile } = useProfile();
   return (
-    <BrowserRouter>
-      <div className="app-layout">
-        <Sidebar />
-        <main className="main-content">
+    <div className="app-layout">
+      <Sidebar />
+      <main className="main-content" key={activeProfile?.id}>
+        {activeProfile && (
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/workouts" element={<WorkoutList />} />
@@ -25,8 +27,18 @@ export default function App() {
             <Route path="/sessions/:id" element={<SessionDetail />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
-        </main>
-      </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ProfileProvider>
+        <AppLayout />
+      </ProfileProvider>
     </BrowserRouter>
   );
 }

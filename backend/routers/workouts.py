@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List
 from database import get_db
@@ -9,8 +9,13 @@ router = APIRouter(prefix="/api/workouts", tags=["workouts"])
 
 
 @router.get("", response_model=List[schemas.WorkoutTemplateOut])
-def get_workouts(db: Session = Depends(get_db)):
-    workouts = db.query(models.WorkoutTemplate).order_by(models.WorkoutTemplate.created_at.desc()).all()
+def get_workouts(profile_id: int = Query(...), db: Session = Depends(get_db)):
+    workouts = (
+        db.query(models.WorkoutTemplate)
+        .filter(models.WorkoutTemplate.profile_id == profile_id)
+        .order_by(models.WorkoutTemplate.created_at.desc())
+        .all()
+    )
     return [
         schemas.WorkoutTemplateOut(
             id=w.id,
@@ -24,8 +29,16 @@ def get_workouts(db: Session = Depends(get_db)):
 
 
 @router.post("", response_model=schemas.WorkoutTemplateOut)
-def create_workout(workout: schemas.WorkoutTemplateCreate, db: Session = Depends(get_db)):
-    db_workout = models.WorkoutTemplate(name=workout.name, description=workout.description)
+def create_workout(
+    workout: schemas.WorkoutTemplateCreate,
+    profile_id: int = Query(...),
+    db: Session = Depends(get_db),
+):
+    db_workout = models.WorkoutTemplate(
+        name=workout.name,
+        description=workout.description,
+        profile_id=profile_id,
+    )
     db.add(db_workout)
     db.flush()
 

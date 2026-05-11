@@ -69,6 +69,10 @@ def seed_database(db: Session):
     if db.query(models.Exercise).count() > 0:
         return
 
+    profile = models.UserProfile(name="Me")
+    db.add(profile)
+    db.flush()
+
     exercise_map = {}
     for name, muscle_group, tracking_type, description in EXERCISES:
         ex = models.Exercise(
@@ -81,7 +85,7 @@ def seed_database(db: Session):
 
     template_map = {}
     for t in WORKOUT_TEMPLATES:
-        template = models.WorkoutTemplate(name=t["name"], description=t["description"])
+        template = models.WorkoutTemplate(name=t["name"], description=t["description"], profile_id=profile.id)
         db.add(template)
         db.flush()
         for i, ex_name in enumerate(t["exercises"]):
@@ -113,6 +117,7 @@ def seed_database(db: Session):
                               random.randint(6, 20), random.choice([0, 15, 30, 45]))
         session = models.WorkoutSession(
             workout_template_id=template.id,
+            profile_id=profile.id,
             date=session_dt,
             duration_minutes=random.randint(35, 75),
         )

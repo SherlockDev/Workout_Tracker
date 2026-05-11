@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime, timedelta
@@ -11,7 +11,11 @@ router = APIRouter(prefix="/api/sessions", tags=["sessions"])
 
 
 @router.get("/calendar", response_model=List[str])
-def get_calendar(month: Optional[str] = None, db: Session = Depends(get_db)):
+def get_calendar(
+    profile_id: int = Query(...),
+    month: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
     if not month:
         now = datetime.now()
         month = f"{now.year}-{now.month:02d}"
@@ -20,18 +24,29 @@ def get_calendar(month: Optional[str] = None, db: Session = Depends(get_db)):
     end = datetime(year + 1, 1, 1) if m == 12 else datetime(year, m + 1, 1)
     sessions = (
         db.query(models.WorkoutSession)
-        .filter(models.WorkoutSession.date >= start, models.WorkoutSession.date < end)
+        .filter(
+            models.WorkoutSession.profile_id == profile_id,
+            models.WorkoutSession.date >= start,
+            models.WorkoutSession.date < end,
+        )
         .all()
     )
     return list({s.date.strftime("%Y-%m-%d") for s in sessions})
 
 
 @router.get("/body-areas", response_model=List[schemas.BodyAreaStat])
-def get_body_areas(days: int = 30, db: Session = Depends(get_db)):
+def get_body_areas(
+    profile_id: int = Query(...),
+    days: int = 30,
+    db: Session = Depends(get_db),
+):
     cutoff = datetime.utcnow() - timedelta(days=days)
     sessions = (
         db.query(models.WorkoutSession)
-        .filter(models.WorkoutSession.date >= cutoff)
+        .filter(
+            models.WorkoutSession.profile_id == profile_id,
+            models.WorkoutSession.date >= cutoff,
+        )
         .all()
     )
     counter: Counter = Counter()
@@ -45,11 +60,14 @@ def get_body_areas(days: int = 30, db: Session = Depends(get_db)):
 
 @router.get("", response_model=List[schemas.SessionOut])
 def get_sessions(
+    profile_id: int = Query(...),
     month: Optional[str] = None,
     limit: int = 10,
     db: Session = Depends(get_db),
 ):
-    query = db.query(models.WorkoutSession)
+    query = db.query(models.WorkoutSession).filter(
+        models.WorkoutSession.profile_id == profile_id
+    )
     if month:
         year, m = map(int, month.split("-"))
         start = datetime(year, m, 1)
@@ -73,9 +91,14 @@ def get_sessions(
 
 
 @router.post("", response_model=schemas.SessionOut)
-def complete_workout(data: schemas.CompleteWorkoutCreate, db: Session = Depends(get_db)):
+def complete_workout(
+    data: schemas.CompleteWorkoutCreate,
+    profile_id: int = Query(...),
+    db: Session = Depends(get_db),
+):
     session = models.WorkoutSession(
         workout_template_id=data.workout_template_id,
+        profile_id=profile_id,
         date=data.date or datetime.utcnow(),
         duration_minutes=data.duration_minutes,
         notes=data.notes,

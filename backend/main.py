@@ -22,6 +22,11 @@ def run_migrations():
         # Exercise tracking columns
         "ALTER TABLE exercises ADD COLUMN tracking_type TEXT DEFAULT 'strength'",
         "ALTER TABLE exercises ADD COLUMN custom_metric_label TEXT",
+        # Profile foreign keys
+        "ALTER TABLE workout_templates ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
+        "ALTER TABLE workout_sessions ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
+        "ALTER TABLE weight_logs ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
+        "ALTER TABLE body_measurements ADD COLUMN profile_id INTEGER REFERENCES user_profiles(id)",
     ]
     update_stmts = [
         "UPDATE exercises SET tracking_type='distance_pace'    WHERE name IN ('Running','Cycling') AND (tracking_type IS NULL OR tracking_type='strength')",
@@ -39,13 +44,30 @@ def run_migrations():
                 conn.execute(text(stmt))
                 conn.commit()
             except Exception:
-                pass  # Column already exists
+                pass
         for stmt in update_stmts + create_stmts:
             try:
                 conn.execute(text(stmt))
                 conn.commit()
             except Exception:
                 pass
+
+        # Ensure a default profile exists, then migrate any unowned rows to it
+        result = conn.execute(text("SELECT id FROM user_profiles LIMIT 1"))
+        row = result.fetchone()
+        if not row:
+            conn.execute(text("INSERT INTO user_profiles (name) VALUES ('Me')"))
+            conn.commit()
+            result = conn.execute(text("SELECT id FROM user_profiles LIMIT 1"))
+            row = result.fetchone()
+        if row:
+            default_id = row[0]
+            for table in ["workout_templates", "workout_sessions", "weight_logs", "body_measurements"]:
+                try:
+                    conn.execute(text(f"UPDATE {table} SET profile_id = {default_id} WHERE profile_id IS NULL"))
+                    conn.commit()
+                except Exception:
+                    pass
 
 
 @asynccontextmanager

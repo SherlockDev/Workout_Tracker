@@ -149,7 +149,12 @@ class BodyAreaStat(BaseModel):
 
 # ── Profile ──────────────────────────────────────────────────────────────────
 
+class UserProfileCreate(BaseModel):
+    name: str
+
+
 class UserProfileOut(BaseModel):
+    id: int
     name: Optional[str] = None
     age: Optional[int] = None
     height_cm: Optional[float] = None

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useProfile } from "../context/ProfileContext";
 import "./Sidebar.css";
 
 const IconDashboard = () => (
@@ -48,15 +50,34 @@ const IconProfile = () => (
   </svg>
 );
 
-const NAV = [
+const MAIN_NAV = [
   { to: "/", icon: <IconDashboard />, label: "Dashboard", end: true },
   { to: "/workouts", icon: <IconList />, label: "Workouts" },
   { to: "/builder", icon: <IconBuilder />, label: "Builder" },
   { to: "/exercises", icon: <IconExercises />, label: "Exercises" },
-  { to: "/profile", icon: <IconProfile />, label: "Profile" },
 ];
 
+function initials(name) {
+  if (!name) return "?";
+  return name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+}
+
 export default function Sidebar() {
+  const { profiles, activeProfile, switchProfile, createProfile } = useProfile();
+  const [open, setOpen] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [newName, setNewName] = useState("");
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    if (!newName.trim()) return;
+    const p = await createProfile(newName.trim());
+    setNewName("");
+    setCreating(false);
+    switchProfile(p);
+    setOpen(false);
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -65,7 +86,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        {NAV.map(({ to, icon, label, end }) => (
+        {MAIN_NAV.map(({ to, icon, label, end }) => (
           <NavLink
             key={to}
             to={to}
@@ -77,6 +98,60 @@ export default function Sidebar() {
           </NavLink>
         ))}
       </nav>
+
+      <div className="sidebar-bottom">
+        <div className="profile-switcher">
+          <button
+            className="profile-switcher-btn"
+            onClick={() => { setOpen((o) => !o); setCreating(false); }}
+          >
+            <span className="profile-avatar">{initials(activeProfile?.name)}</span>
+            <span className="profile-switcher-name">{activeProfile?.name || "Profile"}</span>
+            <span className="profile-switcher-chevron">▾</span>
+          </button>
+
+          {open && (
+            <div className="profile-dropdown">
+              {profiles.map((p) => (
+                <button
+                  key={p.id}
+                  className={`profile-option${p.id === activeProfile?.id ? " active" : ""}`}
+                  onClick={() => { switchProfile(p); setOpen(false); }}
+                >
+                  <span className="profile-avatar sm">{initials(p.name)}</span>
+                  <span>{p.name}</span>
+                </button>
+              ))}
+              <div className="profile-dropdown-divider" />
+              {creating ? (
+                <form className="profile-create-form" onSubmit={handleCreate}>
+                  <input
+                    autoFocus
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="Profile name"
+                    className="profile-create-input"
+                  />
+                  <button type="submit" className="profile-create-submit">Add</button>
+                </form>
+              ) : (
+                <button className="profile-option new" onClick={() => setCreating(true)}>
+                  <span className="profile-add-icon">+</span>
+                  <span>New profile</span>
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        <NavLink
+          to="/profile"
+          className={({ isActive }) => `nav-item${isActive ? " active" : ""}`}
+        >
+          <span className="nav-icon"><IconProfile /></span>
+          <span>Profile</span>
+        </NavLink>
+      </div>
     </aside>
   );
 }
